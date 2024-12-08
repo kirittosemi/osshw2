@@ -2,30 +2,31 @@ name: CI/CD for Node.js App
 
 on:
   push:
-    branches:
-      - main
+        branches:
+                - main
+
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+            steps:
+                    - name: Checkout code
+                      uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: |
-          npm install
+                    - name: Install dependencies
+                      run: | 
+                        npm install
 
-      - name: Deploy to EC2
-        env:
-          HOST: <your-ec2-public-ip>
-          USER: ec2-user
-          KEY: ${{ secrets.EC2_KEY }}
-        run: |
-          ssh -o StrictHostKeyChecking=no -i $KEY $USER@$HOST "
-          cd /home/ec2-user/<your-repository>
-          git pull
-          npm install
-          pm2 restart all
-          "
+                    - name: Deploy to EC2
+                      env:
+                        HOST: 3.24.123.153
+                        USER: ec2-user
+                        KEY: ${{ secrets.EC2_KEY }}
+                      run: |
+                        ssh -o StrictHostKeyChecking=no -i $KEY $USER@$HOST "
+                        cd /home/ec2-user/osshw2
+                        git pull
+                        npm install
+                        pm2 restart all
+                        "
